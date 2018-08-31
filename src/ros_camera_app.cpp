@@ -1,6 +1,7 @@
 #include "ros_camera_app.hpp"
+#include <uvc_camera.hpp>
 
-ros_camera::ros_camera()
+RosCamera::RosCamera()
 {
-
+  UvcCamera jotelly_camera;
 }

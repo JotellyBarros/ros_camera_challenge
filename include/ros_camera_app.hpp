@@ -1,11 +1,10 @@
 #ifndef ROS_CAMERA_HPP
 #define ROS_CAMERA_HPP
 
-
-class ros_camera
+class RosCamera
 {
 public:
-  ros_camera();
+  RosCamera();
 };
 
 #endif // ROS_CAMERA_HPP
