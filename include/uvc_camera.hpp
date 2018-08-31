@@ -12,13 +12,12 @@ class UvcCamera
 {
 private:
   int exposive_time_;
-  int resolution_;
+  int resolution_height_;
+  int resolution_width_;
   int codec_;
   int gain_;
   int rotation_;
   int depth_mode_;
-  int rescale_height_;
-  int rescale_width_;
   int crop_height_;
   int crop_width_;
 
@@ -32,32 +31,28 @@ public:
   //void startStream(const char* device);
   void startStream(const char* device);
   void stopStream();
-  void setExpose(int value);
 
-
-  //Getts and Setts
-  int exposive_time() const;
-  void setExposive_time(int exposive_time);
-  int resolution() const;
-  void setResolution(int resolution);
-  int codec() const;
-  void setCodec(int codec);
-  int gain() const;
-  void setGain(int gain);
-  int rotation() const;
-  void setRotation(int rotation);
-  int depth_mode() const;
-  void setDepth_mode(int depth_mode);
-  int rescale_height() const;
-  void setRescale_height(int rescale_height);
-  int rescale_width() const;
-  void setRescale_width(int rescale_width);
-  int crop_height() const;
-  void setCrop_height(int crop_height);
-  int crop_width() const;
-  void setCrop_width(int crop_width);
   cv::VideoCapture getCap() const;
   void setCap(const cv::VideoCapture &value);
+
+  int getExposive_time() const;
+  void setExposive_time(int exposive_time);
+  int getResolution_height() const;
+  void setResolution_height(int resolution_height);
+  int getResolution_width() const;
+  void setResolution_width(int resolution_width);
+  int getCodec() const;
+  void setCodec(int codec);
+  int getGain() const;
+  void setGain(int gain);
+  int getRotation() const;
+  void setRotation(int rotation);
+  int getDepth_mode() const;
+  void setDepth_mode(int depth_mode);
+  int getCrop_height() const;
+  void setCrop_height(int crop_height);
+  int getCrop_width() const;
+  void setCrop_width(int crop_width);
 };
 
 #endif // UVC_CAMERA_HPP
