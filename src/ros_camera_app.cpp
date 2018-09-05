@@ -2,7 +2,7 @@
 
 RosCamera::RosCamera()
 {
-  //  RosCamera::cont = 0;
+  camera_.cameraSetup(460,360, eff_cpp::BowlEncoding::rgb8, RosCamera::imageCallback, (void*) this);
 
 }
 
@@ -22,18 +22,23 @@ void RosCamera::callback(ros_camera_challenge::InterfaceConfig &config, uint32_t
   ROS_INFO_STREAM("Sets the Rescale height : " << config.rescale_height << " width: " << config.rescale_width);
   ROS_INFO_STREAM("Sets the Crop height    : " << config.crop_height << " width: " << config.crop_width << std::endl);
 
-  camera_01_.setResolution_width(config.crop_width);
-  camera_01_.setResolution_height(config.crop_height);
+  camera_.setResolution_width(config.rescale_width);
+  camera_.setResolution_height(config.rescale_height);
+
 
 }
 
 void RosCamera::interfaceOfdynamic()
 {
-  // Set up a dynamic reconfigure server.
-  dynamic_reconfigure::Server<ros_camera_challenge::InterfaceConfig> server;
-  dynamic_reconfigure::Server<ros_camera_challenge::InterfaceConfig>::CallbackType f;
-
+//  reconfigure_server_.reset(new ReconfigureServer(_nh));
+//  reconfigure_server_->setCallback(boost::bind(&RosCamera::callback, this, _1, _2));
+  dynamic_reconfigure::Server<Config>::CallbackType f;
   f = boost::bind(&RosCamera::callback, this, _1, _2);
-  server.setCallback(f);
-  ros::spinOnce();
+  srv.setCallback(f);
+}
+
+void RosCamera::imageCallback(cv::Mat& frame)
+{
+    cv::imshow("Test", frame);
+    int key = cv::waitKey(1);
 }

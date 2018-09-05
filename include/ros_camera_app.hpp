@@ -11,13 +11,14 @@
 class RosCamera
 {
 public:
-  ros::NodeHandle node;
+  ros::NodeHandle nh_;
 
   typedef ros_camera_challenge::InterfaceConfig Config;
   typedef dynamic_reconfigure::Server<Config> ReconfigureServer;
-  boost::shared_ptr<ReconfigureServer> reconfigure_server_;
-  Config config_;
 
+  ReconfigureServer srv;
+
+  boost::shared_ptr<ReconfigureServer> reconfigure_server_;
 
   RosCamera();
   UvcCamera camera_01_;
@@ -25,6 +26,9 @@ public:
   void rosStartStream();
   void interfaceOfdynamic();
   void callback(ros_camera_challenge::InterfaceConfig &config, uint32_t level);
+  static void imageCallback(cv::Mat& frame);
+
+  eff_cpp::BowlCamera camera_;
 };
 
 #endif // ROS_CAMERA_HPP
