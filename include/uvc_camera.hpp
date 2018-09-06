@@ -66,9 +66,6 @@ public:
   int getResolution_mode() const;
   void setResolution_mode(int resolution_mode);
 
-  int getGain() const;
-  void setGain(int gain);
-
   int getRotation() const;
   void setRotation(int rotation);
 
@@ -81,17 +78,29 @@ public:
   int getResolution_width() const;
   void setResolution_width(int resolution_width);
 
+  int getCrop_height() const;
+  void setCrop_height(int crop_height);
+
+  int getCrop_width() const;
+  void setCrop_width(int crop_width);
+
+  double_t getExpousure_time() const;
+  void setExpousure_time(const double_t &expousure_time);
+
 private:
   int *buffer_ptr_;
   std::thread *callback_thread;
   CallBackPtr grab_param_;
 
+  double_t rescale_factor_;
+  double_t expousure_time_;
   bool changeFrame_ = false;
   int resolution_mode_;
-  double_t rescale_factor_;
   int brightness_;
   int contrast_;
-  int gain_;
   int rotation_;
+  int crop_height_;
+  int crop_width_;
+
 };
 #endif // UVC_CAMERA_HPP

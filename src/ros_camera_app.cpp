@@ -11,8 +11,10 @@ void RosCamera::callback(ros_camera_challenge::InterfaceConfig &config, uint32_t
   camera_.setResolution_mode(config.resolution);
   camera_.setContrast(config.contrast);
   camera_.setBrightness(config.brightness);
-  camera_.setGain(config.gain);
   camera_.setRotation(config.rotation);
+  camera_.setCrop_height(config.crop_height);
+  camera_.setCrop_width(config.crop_width);
+  camera_.setExpousure_time(config.exposure_time);
 
   //Flag return InterfaceConfig
   camera_.setChangeFrame(true);

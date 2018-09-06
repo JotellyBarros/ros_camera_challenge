@@ -40,16 +40,6 @@ void UvcCamera::setResolution_mode(int resolution_mode)
   resolution_mode_ = resolution_mode;
 }
 
-int UvcCamera::getGain() const
-{
-  return gain_;
-}
-
-void UvcCamera::setGain(int gain)
-{
-  gain_ = gain;
-}
-
 int UvcCamera::getRotation() const
 {
   return rotation_;
@@ -68,6 +58,36 @@ double_t UvcCamera::getRescale_factor() const
 void UvcCamera::setRescale_factor(double_t rescale_factor)
 {
   rescale_factor_ = rescale_factor;
+}
+
+int UvcCamera::getCrop_height() const
+{
+  return crop_height_;
+}
+
+void UvcCamera::setCrop_height(int crop_height)
+{
+  crop_height_ = crop_height;
+}
+
+int UvcCamera::getCrop_width() const
+{
+  return crop_width_;
+}
+
+void UvcCamera::setCrop_width(int crop_width)
+{
+  crop_width_ = crop_width;
+}
+
+double_t UvcCamera::getExpousure_time() const
+{
+  return expousure_time_;
+}
+
+void UvcCamera::setExpousure_time(const double_t &expousure_time)
+{
+  expousure_time_ = expousure_time;
 }
 
 UvcCamera::UvcCamera()
@@ -98,7 +118,7 @@ void UvcCamera::frameThread(void* params)
 {
   UvcCamera *pThis = (UvcCamera *) params;
 
-  cv::VideoCapture video(0);
+  cv::VideoCapture video(1);
 
   if ( !video.isOpened() )
   {
@@ -106,7 +126,8 @@ void UvcCamera::frameThread(void* params)
   }
 
   cv::Mat frame;
-  cv::Mat r; //using rotation
+  cv::Mat r; //Using rotation
+  cv::Rect roi; //Using Crop
 
   while(true)
   {
@@ -190,6 +211,11 @@ void UvcCamera::frameThread(void* params)
       video.set(CV_CAP_PROP_CONTRAST, ((float)pThis->getContrast() / 100));
       video.set(CV_CAP_PROP_BRIGHTNESS, ((float)pThis->getBrightness() / 100));
 
+      // Define parameters Exposure time
+      video.set(CV_CAP_PROP_EXPOSURE, pThis->getExpousure_time()); //-1 is auto, values range from 0 to 100
+      std::cout << "getExpousure_time: " << pThis->getExpousure_time() << std::endl;
+      std::cout << "CV_CAP_PROP_EXPOSURE: " << video.get(CV_CAP_PROP_EXPOSURE) << std::endl;
+
       pThis->setChangeFrame(false);
     }
 
@@ -198,9 +224,18 @@ void UvcCamera::frameThread(void* params)
     cv::Mat r = getRotationMatrix2D(pt, pThis->getRotation() * -1, 1.0);
     cv::warpAffine(frame, frame, r, cv::Size(frame.cols, frame.rows));
 
+    //Resize
     cv::resize(frame, frame, cv::Size((float)(video.get(CV_CAP_PROP_FRAME_WIDTH) * (pThis->getRescale_factor() * 5)), (float)(video.get(CV_CAP_PROP_FRAME_HEIGHT) * (pThis->getRescale_factor() * 5))));
 
-    pThis->grab_param_(frame);
+    //Crop
+    roi.x = pThis->getCrop_width();
+    roi.y = pThis->getCrop_height();
+    roi.width = frame.size().width - (pThis->getCrop_width()*2);
+    roi.height = frame.size().height - (pThis->getCrop_height()*2);
+
+    /* Crop the original image to the defined */
+    cv::Mat crop = frame(roi);
+
+    pThis->grab_param_(crop);
   }
 }
-
