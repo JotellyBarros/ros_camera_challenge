@@ -54,11 +54,6 @@ public:
 
   static void frameThread(void* params);
 
-  int getResolution_height() const;
-  void setResolution_height(int getResolution_height);
-  int getResolution_width() const;
-  void setResolution_width(int getResolution_width);
-
   bool getChangeFrame() const;
   void setChangeFrame(bool changeFrame);
 
@@ -66,10 +61,25 @@ public:
   void setBrightness(float brightness);
 
   int getContrast() const;
-  void setContrast(float contrast);
+  void setContrast(int contrast);
 
   int getResolution_mode() const;
   void setResolution_mode(int resolution_mode);
+
+  int getGain() const;
+  void setGain(int gain);
+
+  int getRotation() const;
+  void setRotation(int rotation);
+
+  double_t getRescale_factor() const;
+  void setRescale_factor(double_t rescale_factor);
+
+  int getResolution_height() const;
+  void setResolution_height(int resolution_height);
+
+  int getResolution_width() const;
+  void setResolution_width(int resolution_width);
 
 private:
   int *buffer_ptr_;
@@ -78,10 +88,10 @@ private:
 
   bool changeFrame_ = false;
   int resolution_mode_;
-  int resolution_height_;
-  int resolution_width_;
+  double_t rescale_factor_;
   int brightness_;
   int contrast_;
-
+  int gain_;
+  int rotation_;
 };
 #endif // UVC_CAMERA_HPP

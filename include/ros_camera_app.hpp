@@ -24,7 +24,6 @@ public:
   void interfaceOfdynamic();
   void callback(ros_camera_challenge::InterfaceConfig &config, uint32_t level);
   static void imageCallback(cv::Mat& frame);
-
 };
 
 #endif // ROS_CAMERA_HPP
