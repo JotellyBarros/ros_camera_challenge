@@ -15,6 +15,7 @@ public:
   UvcCamera camera_;
 
   ros::NodeHandle nh_;
+
   typedef ros_camera_challenge::InterfaceConfig Config;
   typedef dynamic_reconfigure::Server<Config> ReconfigureServer;
 

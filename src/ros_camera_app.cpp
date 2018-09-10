@@ -28,7 +28,7 @@ void RosCamera::interfaceOfdynamic()
 }
 
 void RosCamera::imageCallback(cv::Mat& frame)
-{  
+{
   //Display the resulting frame
   cv::imshow( "My First Video", frame );
   cv::waitKey(30);

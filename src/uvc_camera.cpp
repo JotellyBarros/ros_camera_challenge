@@ -118,7 +118,7 @@ void UvcCamera::frameThread(void* params)
 {
   UvcCamera *pThis = (UvcCamera *) params;
 
-  cv::VideoCapture video(1);
+  cv::VideoCapture video(0);
 
   if ( !video.isOpened() )
   {
@@ -212,22 +212,22 @@ void UvcCamera::frameThread(void* params)
       video.set(CV_CAP_PROP_BRIGHTNESS, ((float)pThis->getBrightness() / 100));
 
       // Define parameters Exposure time
-      video.set(CV_CAP_PROP_EXPOSURE, pThis->getExpousure_time()); //-1 is auto, values range from 0 to 100
-      std::cout << "getExpousure_time: " << pThis->getExpousure_time() << std::endl;
-      std::cout << "CV_CAP_PROP_EXPOSURE: " << video.get(CV_CAP_PROP_EXPOSURE) << std::endl;
+      //      video.set(CV_CAP_PROP_EXPOSURE, pThis->getExpousure_time()); //-1 is auto, values range from 0 to 100
+      //      std::cout << "getExpousure_time: " << pThis->getExpousure_time() << std::endl;
+      //      std::cout << "CV_CAP_PROP_EXPOSURE: " << video.get(CV_CAP_PROP_EXPOSURE) << std::endl;
 
       pThis->setChangeFrame(false);
     }
 
-    //Rotation
+    /* Rotation */
     cv::Point2f pt(frame.cols/2., frame.rows/2.);
     cv::Mat r = getRotationMatrix2D(pt, pThis->getRotation() * -1, 1.0);
     cv::warpAffine(frame, frame, r, cv::Size(frame.cols, frame.rows));
 
-    //Resize
+    /* Resize */
     cv::resize(frame, frame, cv::Size((float)(video.get(CV_CAP_PROP_FRAME_WIDTH) * (pThis->getRescale_factor() * 5)), (float)(video.get(CV_CAP_PROP_FRAME_HEIGHT) * (pThis->getRescale_factor() * 5))));
 
-    //Crop
+    /* Crop */
     roi.x = pThis->getCrop_width();
     roi.y = pThis->getCrop_height();
     roi.width = frame.size().width - (pThis->getCrop_width()*2);
