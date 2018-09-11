@@ -1,0 +1,9 @@
+<launch>
+   <!-- start dynamic_cam query node -->
+   <node pkg="ros_camera_challenge" type="ros_camera_challenge_node" name="dynamic_cam" respawn="true" output="screen"/>
+
+
+   <!--Launch RQT reconfigure -->
+   <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure" respawn="true"/>
+</launch>
+

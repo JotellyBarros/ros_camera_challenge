@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
     rospy
 )
 
+#roslaunch_add_file_check(launch USE_TEST_DEPENDENCIES)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
